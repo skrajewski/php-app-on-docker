@@ -1,4 +1,4 @@
-version: '2'
+version: '3'
 
 services:
     php-fpm:
@@ -6,17 +6,16 @@ services:
             context: .
             dockerfile: .docker/php/Dockerfile
         volumes:
-            - ./:/app:cached
+            - ./:/app
             - ./.docker/php/php.ini:/usr/local/etc/php/php.ini:ro
     nginx:
         image: nginx:1.11
         ports:
             - "8080:80"
-        volumes_from:
-            - php-fpm
         volumes:
+            - ./:/app
             - ./.docker/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
-    mariadb:
+    db:
         image: mariadb:10
         ports:
             - "33060:3306"
